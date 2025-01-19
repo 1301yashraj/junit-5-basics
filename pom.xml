@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.javabrains</groupId>
+    <artifactId>junit-5-basics</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>junit-5-basics</name>
+
+
+    <properties>
+        <java.version>17</java.version>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <junit.jupiter.version>5.11.4</junit.jupiter.version>
+    </properties>
+
+
+    <dependencies>
+       <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+       <dependency>  <!--This dependency will run the tests-->
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${junit.jupiter.version}</version>   <!-- Defined variable in properites above and using it below -->
+          <scope>test</scope>
+       </dependency>
+       <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+       <dependency> <!--This dependency we will use to write tests-->
+           <groupId>org.junit.jupiter</groupId>
+           <artifactId>junit-jupiter-api</artifactId>
+           <version>${junit.jupiter.version}</version>
+           <scope>test</scope>
+       </dependency>
+    </dependencies>
+
+</project>
