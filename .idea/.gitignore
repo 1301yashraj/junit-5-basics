@@ -1,0 +1,16 @@
+# Default ignored files
+/shelf/
+
+
+# Ignore the target folder
+/target/
+/.idea/
+
+# Ignore all .xml files
+*.xml
+*.class
+
+# Do not ignore pom.xml
+!pom.xml
+
+
