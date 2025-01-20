@@ -2,16 +2,41 @@ package raj.yash; //usually same for organization conviniance
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
+//@TestInstance(TestInstance.Lifecycle.PER_METHOD)  //default
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MathUtilsTest {
     MathUtils mathUtils;
 
+    public MathUtilsTest() {
+        // Using the below you can check TestInstance behaviour
+        // TestInstance tells when to create the object of the class
+        // System.out.println("-------Constructor for the class-----");
+    }
+
+    // BeforeAll , AfterALL runs even before MathUtilTest Instance is created,
+    // because
+    // MathUtilTest is created for all the Test methods separately.
+    // so to run a method even before its instance is created the method must be
+    // static.
+
+    // But if we have instance per class you can make it no static also.
+    @BeforeAll
+    static void beforeALLInit() {
+        // System.out.println("Running only once per test class");
+    }
+
+    // This @BeforeEach will run before every @Test annoted method is executed, thus
+    // creating an object for all the cases each time a method is run
     @BeforeEach
     void init() {
+        // System.out.println("Creating a Instance >>>>>> ");
         mathUtils = new MathUtils();
     }
 
@@ -50,6 +75,11 @@ class MathUtilsTest {
     @Test
     void testAreaCircle() {
         assertEquals(314.16, mathUtils.area(10), "Area of Circle");
+    }
+
+    @AfterEach
+    void afterEachMethod() {
+        // System.out.println("----Tested----");
     }
 
 }
