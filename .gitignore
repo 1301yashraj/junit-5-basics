@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+
+
+# Ignore the target folder
+**/target
+
+#ignore idea folder
+/.idea/
+
+# Do not ignore pom.xml
+!pom.xml
+
+

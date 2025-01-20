@@ -4,15 +4,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MathUtilsTest {
+    MathUtils mathUtils;
+
+    @BeforeEach
+    void init() {
+        mathUtils = new MathUtils();
+    }
 
     @Test // tells junit this method to run
     void testAdd() {
-        MathUtils mathUntils = new MathUtils();
         int expectedValue = 3;
-        int actualValue = mathUntils.add(1, 2);
+        int actualValue = mathUtils.add(1, 2);
         assertEquals(expectedValue, actualValue, "Add two numbers");
     }
 
@@ -27,7 +33,7 @@ class MathUtilsTest {
 
     // @Test
     // void testDivide1() {
-    // MathUtils mathUtils = new MathUtils();
+
     // try {
     // mathUtils.divide(1, 0);
     // } catch (ClassCastException c) {
@@ -38,13 +44,11 @@ class MathUtilsTest {
 
     @Test
     void testDivide() {
-        MathUtils mathUtils = new MathUtils();
         assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0));
     }
 
     @Test
     void testAreaCircle() {
-        MathUtils mathUtils = new MathUtils();
         assertEquals(314.16, mathUtils.area(10), "Area of Circle");
     }
 
