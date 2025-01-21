@@ -10,6 +10,8 @@ import org.junit.jupiter.api.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MathUtilsTest {
     MathUtils mathUtils;
+    TestInfo info; // Testinfo and TestReport are Dependency injected Interfaces
+    TestReporter reporter;
 
     public MathUtilsTest() {
         // Using the below you can check TestInstance behaviour
@@ -23,7 +25,7 @@ class MathUtilsTest {
     // so to run a method even before its instance is created the method must be
     // static.
 
-    // But if we have instance per class you can make it no static also.
+    // But if we have instance per class you can make it non static also.
     @BeforeAll
     static void beforeALLInit() {
         // System.out.println("Running only once per test class");
@@ -32,7 +34,9 @@ class MathUtilsTest {
     // This @BeforeEach will run before every @Test annoted method is executed, thus
     // creating an object for all the cases each time a method is run
     @BeforeEach
-    void init() {
+    void init(TestInfo info, TestReporter reporter) {
+        this.info = info;
+        this.reporter = reporter;
         // System.out.println("Creating a Instance >>>>>> ");
         mathUtils = new MathUtils();
     }
@@ -40,10 +44,13 @@ class MathUtilsTest {
     @Nested // used for organizing tests into different subsets/groups under different
             // classes
     @DisplayName("Add Test")
+    @Tag("Math") // use mvn Test -Dgroups = Math will run all tests with Math Tag
     class AddTest {
         @Test // tells junit this method to run
         @DisplayName("Adding 2 Positive Numbers") // for Ecllipse or intellij to display the name tag
         void testAddPostive() {
+            System.out.println(info.getDisplayName() + " is Run for Tag " + info.getTags());
+            reporter.publishEntry("TAG >>>>>>>>> " + info.getTags());
             int expectedValue = 3;
             int actualValue = mathUtils.add(1, 2);
             assertEquals(expectedValue, actualValue, "Add two numbers");
@@ -69,6 +76,7 @@ class MathUtilsTest {
 
     @Test
     @DisplayName("Divide Test")
+    @Tag("Math")
     void testDivide() {
         assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0));
     }
@@ -86,12 +94,25 @@ class MathUtilsTest {
     @Test
     @Disabled
     @DisplayName("Cricle Area Test")
+    @Tag("Circle")
     void testAreaCircle() {
         assertEquals(314.16, mathUtils.area(10), "Area of Circle");
     }
 
+    @DisplayName("Repeated Circle Area Test")
+    @RepeatedTest(1) // perform this test 3 times example
+    @Tag("Circle")
+    void testAreaCircleRep(RepetitionInfo info) {
+        if (info.getCurrentRepetition() == 1)
+            assertEquals(314.16, mathUtils.area(10), "Area of Circle");
+        else {
+            assertEquals(31415.93, mathUtils.area(100), "Area of Circle");
+        }
+    }
+
     @Test
     @DisplayName("Multiply Test >> 4 cases in 1")
+    @Tag("Math")
     void testMutliply() {
         assertAll(
                 () -> assertEquals(4, mathUtils.multiply(2, 2)),
