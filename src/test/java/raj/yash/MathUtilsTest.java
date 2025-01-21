@@ -1,13 +1,10 @@
 package raj.yash; //usually same for organization conviniance
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 
 //@TestInstance(TestInstance.Lifecycle.PER_METHOD)  //default
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -40,11 +37,25 @@ class MathUtilsTest {
         mathUtils = new MathUtils();
     }
 
-    @Test // tells junit this method to run
-    void testAdd() {
-        int expectedValue = 3;
-        int actualValue = mathUtils.add(1, 2);
-        assertEquals(expectedValue, actualValue, "Add two numbers");
+    @Nested // used for organizing tests into different subsets/groups under different
+            // classes
+    @DisplayName("Add Test")
+    class AddTest {
+        @Test // tells junit this method to run
+        @DisplayName("Adding 2 Positive Numbers") // for Ecllipse or intellij to display the name tag
+        void testAddPostive() {
+            int expectedValue = 3;
+            int actualValue = mathUtils.add(1, 2);
+            assertEquals(expectedValue, actualValue, "Add two numbers");
+        }
+
+        @Test
+        @DisplayName("Adding 2 negative numbers")
+        void testAddNegative() {
+            int expectedValue = -3;
+            int actualValue = mathUtils.add(-1, -2);
+            assertEquals(expectedValue, actualValue, "Add two numbers");
+        }
     }
 
     // when you run mvn test junit platform runs all the @Test annoted methods.
@@ -56,25 +67,37 @@ class MathUtilsTest {
     // assertArrayEquals(expectedArray, actualArray)
     // assertIterableEquals(expectedArray, actualArray)
 
-    // @Test
-    // void testDivide1() {
+    @Test
+    @DisplayName("Divide Test")
+    void testDivide() {
+        assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0));
+    }
 
+    // @Test // other way to check exception , another one is to use equal method to
+    // check the class type
+    // void testDivide1() {
     // try {
     // mathUtils.divide(1, 0);
     // } catch (ClassCastException c) {
-
     // }
     // fail("SOme other Type of exception");
     // }
 
     @Test
-    void testDivide() {
-        assertThrows(ArithmeticException.class, () -> mathUtils.divide(1, 0));
+    @Disabled
+    @DisplayName("Cricle Area Test")
+    void testAreaCircle() {
+        assertEquals(314.16, mathUtils.area(10), "Area of Circle");
     }
 
     @Test
-    void testAreaCircle() {
-        assertEquals(314.16, mathUtils.area(10), "Area of Circle");
+    @DisplayName("Multiply Test >> 4 cases in 1")
+    void testMutliply() {
+        assertAll(
+                () -> assertEquals(4, mathUtils.multiply(2, 2)),
+                () -> assertEquals(0, mathUtils.multiply(2, 0)),
+                () -> assertEquals(-2, mathUtils.multiply(2, -1)),
+                () -> assertEquals(4, mathUtils.multiply(-2, -2)));
     }
 
     @AfterEach
